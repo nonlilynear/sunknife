@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://coo607umn0a0c"]
+
+[ext_resource type="Script" uid="uid://cdn4rdxyw58lp" path="res://objects/gameplay/platform/platform.gd" id="1_q0jw4"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_2cr7p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlf3"]
+size = Vector2(16, 16)
+
+[node name="Platform" type="StaticBody2D" unique_id=1526767151]
+collision_mask = 0
+script = ExtResource("1_q0jw4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=218307741]
+texture_repeat = 2
+texture = ExtResource("2_2cr7p")
+region_enabled = true
+region_rect = Rect2(54, 42, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=798595098]
+shape = SubResource("RectangleShape2D_nmlf3")

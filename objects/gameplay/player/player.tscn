@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://d2in6j8v8kufd" path="res://objects/gameplay/player/player.gd" id="1_0aaha"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_staoy"]
 [ext_resource type="Script" uid="uid://dnk075wh4ivhi" path="res://objects/gameplay/player/movement.gd" id="3_n4040"]
+[ext_resource type="Script" uid="uid://d2bnee42tybkw" path="res://objects/gameplay/player/hook.gd" id="4_xu5io"]
+[ext_resource type="Script" uid="uid://yt34csb7nq32" path="res://objects/gameplay/player/dash.gd" id="5_203kd"]
+[ext_resource type="Shader" uid="uid://bcpox5oconwo8" path="res://objects/gameplay/player/rainbow.gdshader" id="5_hl5bi"]
+[ext_resource type="Texture2D" uid="uid://cgmo5081f10fy" path="res://objects/gameplay/player/chain.png" id="5_p2j3n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0aaha"]
 size = Vector2(73, 90)
@@ -21,6 +25,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n4040"]
 size = Vector2(72, 5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8esyk"]
+shader = ExtResource("5_hl5bi")
+
 [node name="player" type="CharacterBody2D" unique_id=220864025]
 collision_layer = 2
 script = ExtResource("1_0aaha")
@@ -36,8 +43,53 @@ sprite_frames = SubResource("SpriteFrames_n4040")
 [node name="movement" type="Node2D" parent="." unique_id=1307021890 node_paths=PackedStringArray("sprite")]
 script = ExtResource("3_n4040")
 sprite = NodePath("../sprite")
+start_accel = 150.0
+stop_accel = 100.0
+jump_height = 36.0
 
 [node name="ground_ray" type="ShapeCast2D" parent="movement" unique_id=1788472728]
 position = Vector2(0, 46)
 shape = SubResource("RectangleShape2D_n4040")
 target_position = Vector2(0, 10)
+
+[node name="hook" type="Node2D" parent="." unique_id=604685417 node_paths=PackedStringArray("cooldown_label")]
+script = ExtResource("4_xu5io")
+max_distance = 3000.0
+cooldown_label = NodePath("Label")
+
+[node name="hook_ray" type="RayCast2D" parent="hook" unique_id=1688718612]
+target_position = Vector2(0, 1000)
+
+[node name="tip" type="Node2D" parent="hook" unique_id=47784490]
+top_level = true
+
+[node name="chain" type="Sprite2D" parent="hook" unique_id=1364766215]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_8esyk")
+texture = ExtResource("5_p2j3n")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 32)
+
+[node name="cooldown" type="Timer" parent="hook" unique_id=222643882]
+wait_time = 5.0
+one_shot = true
+
+[node name="Label" type="Label" parent="hook" unique_id=98328877]
+offset_left = 878.0
+offset_right = 935.0
+offset_bottom = 23.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "🪝"
+
+[node name="dash" type="Node2D" parent="." unique_id=2094976607]
+script = ExtResource("5_203kd")
+
+[node name="camera" type="Camera2D" parent="." unique_id=559749454]
+limit_left = 0
+limit_right = 960
+position_smoothing_enabled = true
+
+[connection signal="timeout" from="hook/cooldown" to="hook" method="_on_cooldown_timeout"]
