@@ -19,14 +19,14 @@ func _physics_process(delta: float) -> void:
 		if $ReiCastDown.is_colliding() == true: ##there is ground beneath you
 			pass
 		else:
-			print("nothing below")
+			#print("nothing below")
 			velocity.x = velocity.x * -1 ##flip around if there is nothing underneath u
 		
 		if $ReiCastLeft.is_colliding() == true:
-			print("hit wall on left")
+			#print("hit wall on left")
 			velocity.x = SPEED
 		if $ReiCastRight.is_colliding() == true:
-			print("hit wall on right")
+			#print("hit wall on right")
 			velocity.x = SPEED*-1
 		if player != null && $ReiCastup.get_collider() == player:
 			velocity.y = velocity.y - 400
