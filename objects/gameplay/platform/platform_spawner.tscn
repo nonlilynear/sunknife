@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://t8u46xijrfn3"]
+
+[sub_resource type="GDScript" id="GDScript_v232v"]
+script/source = "extends Area2D
+
+signal spawn_platforms
+
+func _physics_process(delta: float) -> void:
+	if has_overlapping_bodies():
+		spawn_platforms.emit(position.y - 5100)
+		queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v232v"]
+size = Vector2(1695, 37)
+
+[node name="PlatformSpawner" type="Area2D" unique_id=2123809675]
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_v232v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=302705467]
+position = Vector2(473, 9)
+shape = SubResource("RectangleShape2D_v232v")

@@ -7,11 +7,10 @@ resource_name = "test"
 script/source = "extends Node2D
 
 var platform_scene = load(\"res://objects/gameplay/platform/platform.tscn\")
+var platform_spawner_scene = load(\"res://objects/gameplay/platform/platform_spawner.tscn\")
 
 func _ready() -> void:
-	for i in range(50):
-		for j in range(randi() % 2 + 1):
-			add_random_platform(i * 100)
+	add_many_platforms(-1500)
 
 func _input(event):
 	if event.is_action_pressed(\"reset\"):
@@ -23,6 +22,16 @@ func _input(event):
 # resets the level
 func reset():
 	get_tree().change_scene_to_file(\"res://levels/ary_test.tscn\")
+
+func add_many_platforms(y_base: int) -> void:
+	var platform_spawner = platform_spawner_scene.instantiate()
+	platform_spawner.position.y = y_base + 1000
+	platform_spawner.spawn_platforms.connect(add_many_platforms)
+	add_child(platform_spawner)
+	
+	for i in range(50):
+		for j in range(randi() % 2 + 1):
+			add_random_platform(y_base + i * 100)
 
 func add_random_platform(y_pos: int) -> void:
 	var platform = platform_scene.instantiate()
