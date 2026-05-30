@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_staoy"]
 [ext_resource type="Script" uid="uid://dnk075wh4ivhi" path="res://objects/gameplay/player/movement.gd" id="3_n4040"]
 [ext_resource type="Script" uid="uid://d2bnee42tybkw" path="res://objects/gameplay/player/hook.gd" id="4_xu5io"]
+[ext_resource type="Script" uid="uid://yt34csb7nq32" path="res://objects/gameplay/player/dash.gd" id="5_203kd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0aaha"]
 size = Vector2(73, 90)
@@ -58,3 +59,6 @@ top_level = true
 [node name="Sprite2D" type="Sprite2D" parent="hook/tip" unique_id=1748596850]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_staoy")
+
+[node name="dash" type="Node2D" parent="." unique_id=2094976607]
+script = ExtResource("5_203kd")

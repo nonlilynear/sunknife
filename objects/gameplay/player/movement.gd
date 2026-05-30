@@ -34,6 +34,7 @@ var coyote_timer: float = coyote_duration
 @export var first_half_grav: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var second_half_grav: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var air_strafe_multiplier: float = 0.2
+var dashing: bool = false
 
 # runs when the scene is ready--initial configuration
 func _ready():
@@ -65,10 +66,11 @@ func _physics_process(delta):
 func update_velocities(dir: Vector2, jump: bool, delta: float):
 	# stuff to do every frame
 	## gravity
-	if (p.velocity.y < 0): # going up
-		p.velocity.y += first_half_grav * delta
-	else:                  # going down 
-		p.velocity.y += second_half_grav * delta
+	if not dashing:
+		if (p.velocity.y < 0): # going up
+			p.velocity.y += first_half_grav * delta
+		else:                  # going down 
+			p.velocity.y += second_half_grav * delta
 	
 	## decrement coyote timer every frame
 	coyote_timer -= delta
@@ -77,16 +79,19 @@ func update_velocities(dir: Vector2, jump: bool, delta: float):
 	## multiply movespeed if air-strafing
 	var multiplier = 1.0 if ground_ray.is_colliding() else air_strafe_multiplier
 	
+	var modified_max_speed: float = max_speed
+	if dashing: modified_max_speed *= 2
+	
 	if dir:
 		# change directions at start rate
 		# makes counterstrafing possible
 		p.velocity.x = lerpf(p.velocity.x, 
-							 dir.x * max_speed, 
-							 start_accel / max_speed * multiplier)
+							 dir.x * modified_max_speed, 
+							 start_accel / modified_max_speed * multiplier)
 	else:
 		# only use stop rate for stopping
 		p.velocity.x = lerpf(p.velocity.x, 0, 
-							 stop_accel / max_speed * multiplier)
+							 stop_accel / modified_max_speed * multiplier)
 
 	# jumping
 	## reset coyote timer when on the ground
