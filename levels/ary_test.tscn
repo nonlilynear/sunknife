@@ -1,11 +1,17 @@
-[gd_scene format=4 uid="uid://cii2jpk8gjsb4"]
+[gd_scene format=3 uid="uid://cii2jpk8gjsb4"]
 
 [ext_resource type="PackedScene" uid="uid://d2cpkb6ojjjst" path="res://objects/gameplay/player/player.tscn" id="1_qhukc"]
-[ext_resource type="TileSet" uid="uid://rlkl4qdm0mes" path="res://assets/tiles/arcade.tres" id="2_1vqy1"]
 
 [sub_resource type="GDScript" id="GDScript_lkjt4"]
 resource_name = "test"
 script/source = "extends Node2D
+
+var platform_scene = load(\"res://objects/gameplay/platform/platform.tscn\")
+
+func _ready() -> void:
+	for i in range(50):
+		for j in range(randi() % 2 + 1):
+			add_random_platform(i * 100)
 
 func _input(event):
 	if event.is_action_pressed(\"reset\"):
@@ -17,15 +23,24 @@ func _input(event):
 # resets the level
 func reset():
 	get_tree().change_scene_to_file(\"res://levels/ary_test.tscn\")
+
+func add_random_platform(y_pos: int) -> void:
+	var platform = platform_scene.instantiate()
+	var size = randi() % 12 + 2
+	platform.set_size(size)
+	
+	var rand_x = randi() % int(get_viewport_rect().size.x)
+	#var rand_y = randi() % int(get_viewport_rect().size.y) * 10
+	
+	var x_pos = clamp(rand_x, 32 + size * 16, get_viewport_rect().size.x - size * 16 - 32)
+	#var y_pos = rand_y
+	platform.set_position(Vector2(x_pos, y_pos))
+	add_child(platform)
 "
 
 [node name="test" type="Node2D" unique_id=676496790]
 script = SubResource("GDScript_lkjt4")
 
 [node name="player" parent="." unique_id=220864025 instance=ExtResource("1_qhukc")]
-position = Vector2(445, 203)
+position = Vector2(481, 203)
 scale = Vector2(0.25, 0.25)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=36553107]
-tile_map_data = PackedByteArray("AAAbABMAAAACAAAAAAAcABMAAAACAAAAAAAdABMAAAACAAAAAAAeABMAAAACAAAAAAAfABMAAAACAAAAAAAqABkAAAACAAMAAAArABkAAAACAAAAAAAsABkAAAADAAMAAAAPAAkAAAAAAAMAAAAPAAoAAAADAAAAAAAPAAsAAAADAAAAAAAPAAwAAAACAAMAAAAPABMAAAACAAEAAAAQAAkAAAACAAAAAAAQAAwAAAABAAMAAAAQAA0AAAACAAMAAAAQABMAAAACAAAAAAARAAkAAAACAAAAAAARAA0AAAACAAAAAAARABMAAAACAAAAAAASAAkAAAACAAAAAAASAA0AAAACAAAAAAASABMAAAACAAAAAAATAAkAAAACAAAAAAATAA0AAAACAAAAAAATABMAAAACAAAAAAAUAAkAAAABAAMAAAAUAAoAAAADAAAAAAAUAAsAAAADAAAAAAAUAAwAAAADAAAAAAAUAA0AAAADAAMAAAAUABMAAAACAAAAAAAVABMAAAACAAAAAAAWABMAAAACAAAAAAAXABMAAAACAAAAAAAYABMAAAACAAAAAAAZABMAAAACAAAAAAAaABMAAAACAAAAAAAgABMAAAACAAAAAAAhABMAAAADAAEAAAAhABYAAAACAAEAAAAiABYAAAACAAAAAAAjABYAAAACAAAAAAAkABYAAAACAAAAAAAlABEAAAACAAEAAAAlABYAAAADAAEAAAAmABEAAAACAAAAAAAnABEAAAACAAAAAAAoABEAAAACAAAAAAApABEAAAACAAAAAAAqABEAAAACAAAAAAAqABcAAAAAAAMAAAAqABgAAAADAAAAAAArABEAAAADAAEAAAArABcAAAACAAAAAAAsABcAAAABAAMAAAAsABgAAAADAAAAAAA=")
-tile_set = ExtResource("2_1vqy1")

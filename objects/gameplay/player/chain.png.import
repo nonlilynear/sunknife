@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cgmo5081f10fy"
-path="res://.godot/imported/chain.png-35bc83ce09ad9c74941e613317eede1e.ctex"
+path="res://.godot/imported/chain.png-7498d4ea6bea6372e5bf6e4ec9c3f305.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/chain.png"
-dest_files=["res://.godot/imported/chain.png-35bc83ce09ad9c74941e613317eede1e.ctex"]
+source_file="res://objects/gameplay/player/chain.png"
+dest_files=["res://.godot/imported/chain.png-7498d4ea6bea6372e5bf6e4ec9c3f305.ctex"]
 
 [params]
 
