@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://dnk075wh4ivhi" path="res://objects/gameplay/player/movement.gd" id="3_n4040"]
 [ext_resource type="Script" uid="uid://d2bnee42tybkw" path="res://objects/gameplay/player/hook.gd" id="4_xu5io"]
 [ext_resource type="Script" uid="uid://yt34csb7nq32" path="res://objects/gameplay/player/dash.gd" id="5_203kd"]
+[ext_resource type="Shader" uid="uid://bcpox5oconwo8" path="res://assets/shaders/rainbow.gdshader" id="5_hl5bi"]
+[ext_resource type="Texture2D" uid="uid://cgmo5081f10fy" path="res://assets/chain.png" id="5_p2j3n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0aaha"]
 size = Vector2(73, 90)
@@ -22,6 +24,9 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n4040"]
 size = Vector2(72, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8esyk"]
+shader = ExtResource("5_hl5bi")
 
 [node name="player" type="CharacterBody2D" unique_id=220864025]
 collision_layer = 2
@@ -49,6 +54,7 @@ target_position = Vector2(0, 10)
 
 [node name="hook" type="Node2D" parent="." unique_id=604685417]
 script = ExtResource("4_xu5io")
+max_distance = 3000.0
 
 [node name="hook_ray" type="RayCast2D" parent="hook" unique_id=1688718612]
 target_position = Vector2(0, 1000)
@@ -56,9 +62,13 @@ target_position = Vector2(0, 1000)
 [node name="tip" type="Node2D" parent="hook" unique_id=47784490]
 top_level = true
 
-[node name="Sprite2D" type="Sprite2D" parent="hook/tip" unique_id=1748596850]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_staoy")
+[node name="chain" type="Sprite2D" parent="hook" unique_id=1364766215]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_8esyk")
+texture = ExtResource("5_p2j3n")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 32)
 
 [node name="dash" type="Node2D" parent="." unique_id=2094976607]
 script = ExtResource("5_203kd")

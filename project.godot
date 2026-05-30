@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [input]
@@ -90,3 +91,4 @@ up={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
