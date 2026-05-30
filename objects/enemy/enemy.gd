@@ -6,7 +6,7 @@ const JUMP_VELOCITY = -400.0
 
 func _ready() -> void:
 	velocity.x = SPEED
-	player = get_parent().get_child(0)
+	player = get_parent().get_parent().get_child(0)
 
 func _process(_delta: float) -> void:
 	pass

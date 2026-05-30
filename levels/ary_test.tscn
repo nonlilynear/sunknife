@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cii2jpk8gjsb4"]
 
 [ext_resource type="PackedScene" uid="uid://d2cpkb6ojjjst" path="res://objects/gameplay/player/player.tscn" id="1_qhukc"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_qhukc"]
 
 [sub_resource type="GDScript" id="GDScript_lkjt4"]
 resource_name = "test"
@@ -8,6 +9,7 @@ script/source = "extends Node2D
 
 var platform_scene = load(\"res://objects/gameplay/platform/platform.tscn\")
 var platform_spawner_scene = load(\"res://objects/gameplay/platform/platform_spawner.tscn\")
+var enemy_scene = load(\"res://objects/enemy/enemy.tscn\")
 
 func _ready() -> void:
 	add_many_platforms(-1500)
@@ -44,12 +46,54 @@ func add_random_platform(y_pos: int) -> void:
 	var x_pos = clamp(rand_x, 32 + size * 16, get_viewport_rect().size.x - size * 16 - 32)
 	#var y_pos = rand_y
 	platform.set_position(Vector2(x_pos, y_pos))
+	
+	var enemy_chance = randi() % 5
+	if enemy_chance == 0:
+		var enemy = enemy_scene.instantiate()
+		enemy.position.y = -20
+		enemy.scale = Vector2(0.2, 0.2)
+		platform.add_child(enemy)
+	
 	add_child(platform)
 "
+
+[sub_resource type="GDScript" id="GDScript_a65xg"]
+script/source = "extends Area2D
+
+func _ready() -> void:
+	pass # Replace with function body.
+
+func _physics_process(delta: float) -> void:
+	position.y -= 1
+
+
+func _on_body_entered(body: Node2D) -> void:
+	body.queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a65xg"]
+size = Vector2(980, 60)
 
 [node name="test" type="Node2D" unique_id=676496790]
 script = SubResource("GDScript_lkjt4")
 
 [node name="player" parent="." unique_id=220864025 instance=ExtResource("1_qhukc")]
+unique_name_in_owner = true
 position = Vector2(481, 203)
 scale = Vector2(0.25, 0.25)
+
+[node name="kill" type="Area2D" parent="." unique_id=103902801]
+position = Vector2(480, 771)
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_a65xg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kill" unique_id=752568493]
+shape = SubResource("RectangleShape2D_a65xg")
+
+[node name="Sprite2D" type="Sprite2D" parent="kill" unique_id=1452723574]
+position = Vector2(0, 195)
+scale = Vector2(7.62, 3.5000005)
+texture = ExtResource("2_qhukc")
+
+[connection signal="body_entered" from="kill" to="kill" method="_on_body_entered"]
