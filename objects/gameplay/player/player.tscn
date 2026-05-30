@@ -52,9 +52,10 @@ position = Vector2(0, 46)
 shape = SubResource("RectangleShape2D_n4040")
 target_position = Vector2(0, 10)
 
-[node name="hook" type="Node2D" parent="." unique_id=604685417]
+[node name="hook" type="Node2D" parent="." unique_id=604685417 node_paths=PackedStringArray("cooldown_label")]
 script = ExtResource("4_xu5io")
 max_distance = 3000.0
+cooldown_label = NodePath("Label")
 
 [node name="hook_ray" type="RayCast2D" parent="hook" unique_id=1688718612]
 target_position = Vector2(0, 1000)
@@ -70,6 +71,19 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 8, 32)
 
+[node name="cooldown" type="Timer" parent="hook" unique_id=222643882]
+wait_time = 5.0
+one_shot = true
+
+[node name="Label" type="Label" parent="hook" unique_id=98328877]
+offset_left = 878.0
+offset_right = 935.0
+offset_bottom = 23.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "🪝"
+
 [node name="dash" type="Node2D" parent="." unique_id=2094976607]
 script = ExtResource("5_203kd")
 
@@ -77,3 +91,5 @@ script = ExtResource("5_203kd")
 limit_left = 0
 limit_right = 960
 position_smoothing_enabled = true
+
+[connection signal="timeout" from="hook/cooldown" to="hook" method="_on_cooldown_timeout"]

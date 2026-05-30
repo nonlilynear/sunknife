@@ -22,6 +22,6 @@ func _input(event: InputEvent) -> void:
 func dash(dash_dir: Vector2):
 	dash_available = false
 	dash_timer = DASH_DURATION
-	var dash_dir_ = dash_dir.normalized()
+	var dash_dir_ = dash_dir
 	p.velocity.x = dash_dir_.x * dash_power_x
 	p.velocity.y = dash_dir_.y * dash_power_y
