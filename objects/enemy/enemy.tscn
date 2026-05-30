@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cie5v80o7xos1"]
+
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_4yiqm"]
+[ext_resource type="Script" uid="uid://cvlhxn8vxqtk1" path="res://objects/gameplay/enemy/enemy.gd" id="1_61l24"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21odq"]
+size = Vector2(108, 106)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1716923641]
+script = ExtResource("1_61l24")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=161152155]
+modulate = Color(1, 0, 1, 1)
+texture = ExtResource("1_4yiqm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=707604143]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_21odq")
+
+[node name="ReiCastDown" type="RayCast2D" parent="." unique_id=598657549]
+target_position = Vector2(0, 150)
+collide_with_areas = true
+
+[node name="ReiCastLeft" type="RayCast2D" parent="." unique_id=277160294]
+position = Vector2(-20, 0)
+target_position = Vector2(-55, 0)
+collide_with_areas = true
+
+[node name="ReiCastRight" type="RayCast2D" parent="." unique_id=1668671508]
+position = Vector2(20, 0)
+target_position = Vector2(55, 0)
+collide_with_areas = true
+
+[node name="ReiCastup" type="RayCast2D" parent="." unique_id=998146243]
+target_position = Vector2(0, -200)
+collision_mask = 2
+collide_with_areas = true
