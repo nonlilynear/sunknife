@@ -72,3 +72,8 @@ region_rect = Rect2(0, 0, 8, 32)
 
 [node name="dash" type="Node2D" parent="." unique_id=2094976607]
 script = ExtResource("5_203kd")
+
+[node name="camera" type="Camera2D" parent="." unique_id=559749454]
+limit_left = 0
+limit_right = 960
+position_smoothing_enabled = true

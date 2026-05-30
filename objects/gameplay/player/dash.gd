@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var p: CharacterBody2D = get_parent()
 
-@export var dash_power_x: float = 350.0
-@export var dash_power_y: float = 210.0
+@export var dash_power_x: float = 450.0
+@export var dash_power_y: float = 310.0
 
 const DASH_DURATION: float = 0.15
 var dash_timer: float = 0
